@@ -1,0 +1,139 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#e6e6e6"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:textColor="#000000"
+        android:gravity="center"
+        android:textSize="80px"
+        android:text="系统状态信息"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:textColor="#000000"
+        android:textSize="50px"
+        android:text="本机ID"
+        />
+    <TextView
+        android:id="@+id/text_XtxxBjID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:textColor="#000000"
+        android:textSize="45px"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:textColor="#000000"
+        android:textSize="50px"
+        android:text="功率状况"
+        />
+    <TextView
+        android:id="@+id/text_XtxxGlzk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:textColor="#000000"
+        android:textSize="45px"
+        />
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:textColor="#000000"
+        android:textSize="50px"
+        android:text="系统自检"
+        />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        >
+
+        <TextView
+            android:id="@+id/text_Xtxx_ICState"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="45px"
+            android:inputType="number"
+            />
+
+        <TextView
+            android:id="@+id/text_Xtxx_hwState"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="45px"
+            android:inputType="number"
+            />
+
+        <TextView
+            android:id="@+id/text_Xtxx_inboundState"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="45px"
+            android:inputType="number"
+            />
+        />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:textColor="#000000"
+        android:textSize="50px"
+        android:text="版本信息"
+        />
+    <TextView
+        android:id="@+id/text_XtxxVersions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:textColor="#000000"
+        android:textSize="45px"
+        />
+
+    <Button
+        android:id="@+id/button_XtxxFhzjm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="right"
+        android:textSize="60dp"
+        android:text="返回主界面"/>
+
+
+</LinearLayout>

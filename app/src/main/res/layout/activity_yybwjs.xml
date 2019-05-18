@@ -1,0 +1,124 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#e6e6e6"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:textColor="#000000"
+        android:gravity="center"
+        android:textSize="80px"
+        android:text="语音报文接收"
+        />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        >
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textSize="40px"
+            android:text="发信方ID:"
+            />
+
+        <TextView
+            android:id="@+id/text_ReceiveIDnumber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="#000000"
+            android:inputType="number"
+            android:background="#8c8c8c"
+            android:textSize="40px"
+            android:maxLength="6"
+            android:textColorHint="#000000"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        >
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:textColor="#000000"
+            android:textSize="40px"
+            android:text="通信类型："
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="#000000"
+            android:background="#8c8c8c"
+            android:textSize="40px"
+            android:textColorHint="#000000"
+            android:text="混发"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        >
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:textColor="#000000"
+            android:textSize="40px"
+            android:text="通信内容："
+            />
+
+        <TextView
+            android:id="@+id/text_ReceiveContent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="#000000"
+            android:background="#8c8c8c"
+            android:textSize="40px"
+            android:textColorHint="#000000"
+            />
+    </LinearLayout>
+
+
+
+
+    <Button
+        android:id="@+id/button_ReceiveFhsyj"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="330dp"
+        android:layout_gravity="right"
+        android:textSize="60dp"
+        android:text="返回上一级"/>
+
+
+</LinearLayout>
