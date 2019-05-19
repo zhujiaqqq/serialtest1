@@ -1,71 +1,30 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_interface"
-    >
+    android:background="#ffffff">
+
     <TextView
-        android:id="@+id/text_bdyybwxt"
-        android:text="        北斗语音报文系统"
-        android:layout_marginTop="100dip"
-        android:textColor="#E19F46"
-        android:textSize="65px"
-        android:shadowColor="#000000"
-        android:shadowRadius="50.0"
-        android:textStyle="bold"
+        android:id="@+id/tv_title"
+        style="@style/TextAppearance.AppCompat.Display1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        />
+        android:layout_marginTop="100dp"
+        android:text="@string/title"
+        android:textColor="#000000"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/button_yybwfs"
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_module_list"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="240dip"
-        android:layout_marginTop="210dip"
-        android:background="#FFFFFF"
-        android:text="语音报文发送"
-        android:textColor="#E19F46"
-        android:textSize="50dip" />
-
-    <Button
-        android:id="@+id/button_bdxx"
-        android:text="北斗模块信息"
-        android:layout_marginTop="60dip"
-        android:layout_marginLeft="240dip"
-        android:textColor="#E19F46"
-        android:background="#FFFFFF"
-        android:textSize="50dip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        />
-    <Button
-        android:id="@+id/button_yysfjl"
-        android:text="语音收发记录"
-        android:layout_marginTop="60dip"
-        android:layout_marginLeft="240dip"
-        android:textColor="#E19F46"
-        android:background="#FFFFFF"
-        android:textSize="50dip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        />
-    <Button
-        android:id="@+id/button_xtxx"
-        android:text="系统状态信息"
-        android:layout_marginTop="60dip"
-        android:layout_marginLeft="240dip"
-        android:textColor="#E19F46"
-        android:background="#FFFFFF"
-        android:textSize="50dip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        />
-
-
-</LinearLayout>
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginEnd="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title" />
+</android.support.constraint.ConstraintLayout>
