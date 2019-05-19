@@ -8,4 +8,12 @@
     <string name="pref_key_iat_show">iat_show</string>
     <string name="app_id">58f45018</string>
     <string name="title">北斗语音报文系统</string>
+    <string name="yybwfs">语音报文发送</string>
+    <string name="tv_number">号码：</string>
+    <string name="hint_number">请输入号码</string>
+    <string name="tv_recognize_result">识别内容：</string>
+    <string name="recognize_result_hint">请点击识别按键进行语音识别</string>
+    <string name="btn_recognize">识别</string>
+    <string name="btn_send">发送</string>
+    <string name="tv_back_home">返回主界面</string>
 </resources>

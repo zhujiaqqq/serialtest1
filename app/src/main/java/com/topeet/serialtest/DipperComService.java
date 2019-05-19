@@ -11,6 +11,7 @@ import com.topeet.serialtest.EventBus.Event_DWXX;
 import com.topeet.serialtest.EventBus.Event_Service;
 import com.topeet.serialtest.EventBus.Event_FKXX;
 import com.topeet.serialtest.EventBus.Event_ZJXX;
+import com.topeet.serialtest.activity.YybwjsActivity;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -100,7 +101,7 @@ public class DipperComService extends Service {
                                 EventBus.getDefault().post(new Event_FKXX(res-100));
                                 break;
                             case 2:
-                                Intent intent = new Intent(getBaseContext(),Yybwjs_Activity.class);
+                                Intent intent = new Intent(getBaseContext(), YybwjsActivity.class);
                                 intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
                                 getApplication().startActivity(intent);
                                 break;

@@ -1,114 +1,120 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="#e6e6e6"
-    android:orientation="vertical"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
+
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/tv_title"
+        style="@style/TextAppearance.AppCompat.Display1"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:textColor="#000000"
-        android:gravity="center"
-        android:textSize="80px"
-        android:text="语音报文发送"
-        />
+        android:layout_marginTop="40dp"
+   app:layout_constraintBottom_toTopOf="@id/tv_number"
+        android:textColor="@color/black"
+        android:text="@string/yybwfs"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/tv_number"
+        style="@style/TextAppearance.AppCompat.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="@string/tv_number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
+    <EditText
+        android:id="@+id/et_number"
+        style="@style/TextAppearance.AppCompat.Large"
+        android:layout_width="320dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/edit_text_bg"
+        android:hint="@string/hint_number"
+        android:inputType="number"
+        android:paddingStart="15dp"
+        android:paddingLeft="15dp"
+        android:textCursorDrawable="@drawable/edit_text_cursor"
+        android:textSelectHandle="@drawable/edit_text_select"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_number" />
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tv_recognize_result"
+        style="@style/TextAppearance.AppCompat.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/tv_recognize_result"
+        app:layout_constraintStart_toStartOf="@id/tv_number"
+        app:layout_constraintTop_toBottomOf="@+id/et_number" />
+
+    <EditText
+        android:id="@+id/et_recognize_result"
+        style="@style/TextAppearance.AppCompat.Large"
+        android:layout_width="320dp"
+        android:minLines="3"
+        android:gravity="top"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/edit_text_bg"
+        android:hint="@string/recognize_result_hint"
+        android:paddingStart="15dp"
+        android:textCursorDrawable="@drawable/edit_text_cursor"
+        android:textSelectHandle="@drawable/edit_text_select"
+        app:layout_constraintStart_toStartOf="@id/et_number"
+        app:layout_constraintTop_toBottomOf="@id/tv_recognize_result"
+        android:paddingLeft="15dp" />
+
+    <TextView
+        android:id="@+id/tv_recognize"
+        style="@style/TextAppearance.AppCompat.Large"
+        android:layout_width="100dp"
         android:layout_height="60dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        >
-        <TextView
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:textColor="#000000"
-            android:textSize="40px"
-            android:text="号        码："
-            />
+        android:background="@drawable/bg_btn"
+        android:gravity="center"
+        android:text="@string/btn_recognize"
+        android:textColor="@drawable/bg_btn_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tv_send"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_recognize_result"
+        app:layout_constraintVertical_bias="0.3" />
 
-        <EditText
-            android:id="@+id/edit_SendIDNumber"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="#000000"
-            android:inputType="number"
-            android:background="#8c8c8c"
-            android:textSize="40px"
-            android:maxLength="6"
-            android:textColorHint="#000000"
-            android:hint="请输入号码"
-            />
+    <TextView
+        android:id="@+id/tv_send"
+        style="@style/TextAppearance.AppCompat.Large"
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:background="@drawable/bg_btn"
+        android:gravity="center"
+        android:text="@string/btn_send"
+        android:textColor="@drawable/bg_btn_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_recognize"
+        app:layout_constraintTop_toBottomOf="@id/et_recognize_result"
+        app:layout_constraintVertical_bias="0.3" />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="240dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        >
-        <TextView
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
-            android:textColor="#000000"
-            android:textSize="40px"
-            android:text="识别内容："
-            />
-
-        <EditText
-            android:id="@+id/edit_SpeakContent"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="#000000"
-            android:background="#8c8c8c"
-            android:textSize="40px"
-            android:textColorHint="#000000"
-            android:hint="请点击识别按键进行语音识别"
-            />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/button_shibie"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <TextView
+        android:id="@+id/tv_back"
+        style="@style/TextAppearance.AppCompat.Large"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
         android:layout_marginTop="30dp"
-        android:layout_gravity="center"
-        android:textSize="20dp"
-        android:text="识别"/>
-
-    <Button
-        android:id="@+id/button_fasong"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_gravity="right"
-        android:textSize="20dp"
-        android:text="发送"/>
-
-    <Button
-        android:id="@+id/button_SendFhzjm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="1dp"
-        android:layout_gravity="right"
-        android:textSize="20dp"
-        android:text="返回主界面"/>
-
-
-</LinearLayout>
+        android:background="@drawable/bg_btn"
+        android:gravity="center"
+        android:text="@string/tv_back_home"
+        android:textColor="@drawable/bg_btn_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_recognize" />
+</android.support.constraint.ConstraintLayout>

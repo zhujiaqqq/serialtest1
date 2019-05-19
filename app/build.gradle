@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.topeet.serialtest"
-        minSdkVersion 15
+        minSdkVersion 19
         targetSdkVersion 28
 
         ndk {
@@ -26,6 +26,15 @@ android {
         ndkBuild{
             path "src/main/jni/Android.mk"
         }
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ["libs"]
+        }
+    }
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
     }
 }
 dependencies {
