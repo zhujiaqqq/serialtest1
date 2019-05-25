@@ -1,72 +1,71 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="#e6e6e6"
-    android:orientation="vertical"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/tv_title"
+        style="@style/TextAppearance.AppCompat.Display1"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:textColor="#000000"
-        android:gravity="center"
-        android:textSize="80px"
-        android:text="语音收发记录"
-        />
+        android:layout_marginTop="40dp"
+        android:text="@string/yysfjl"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@id/list_sfjl"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread_inside" />
 
     <ListView
         android:id="@+id/list_sfjl"
         android:layout_width="match_parent"
-        android:layout_height="650dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
+        android:layout_height="500dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="120dp"
         android:divider="#000000"
-        android:dividerHeight="1dp"
-        />
-
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:background="#e6e6e6"
-        android:orientation="horizontal"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="100dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
-        <Button
-            android:id="@+id/button_YysfjlQcsfjl"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:textSize="60dp"
-            android:text="清除收发记录"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#000000"
-            android:gravity="center"
-            android:textSize="80px"
-            android:text=" "
-            />
-
-        <Button
-            android:id="@+id/button_YysfjlFhzjm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:textSize="60dp"
-            android:text="返回主界面"/>
-
-    </LinearLayout>
+        android:dividerHeight="1px"
+        android:scrollbars="none"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
 
+    <Button
+        android:id="@+id/button_YysfjlQcsfjl"
+        style="@style/TextAppearance.AppCompat.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/bg_btn"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:text="@string/qcsfjl"
+        android:textColor="@drawable/bg_btn_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_YysfjlFhzjm"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_goneMarginTop="30dp" />
 
 
-</LinearLayout>
+    <Button
+        android:id="@+id/button_YysfjlFhzjm"
+        style="@style/TextAppearance.AppCompat.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/bg_btn"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:text="@string/tv_back_home"
+        android:textColor="@drawable/bg_btn_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/button_YysfjlQcsfjl"
+        app:layout_goneMarginTop="30dp" />
+
+
+</android.support.constraint.ConstraintLayout>

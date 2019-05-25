@@ -16,4 +16,24 @@
     <string name="btn_recognize">识别</string>
     <string name="btn_send">发送</string>
     <string name="tv_back_home">返回主界面</string>
+    <string name="bdmkxx">北斗模块信息</string>
+    <string name="dwxx">定位信息: </string>
+    <string name="jd">经度：</string>
+    <string name="d">度</string>
+    <string name="jf">角分</string>
+    <string name="jm">角秒</string>
+    <string name="wd">纬度：</string>
+    <string name="tv_gd">高度：</string>
+    <string name="m">米</string>
+    <string name="tv_local_time">定位时间: </string>
+    <string name="shi">时</string>
+    <string name="fen">分</string>
+    <string name="miao">秒</string>
+    <string name="yysfjl">语音收发记录</string>
+    <string name="qcsfjl">清除收发记录</string>
+    <string name="xtztxx">系统状态信息</string>
+    <string name="device_id">本机ID</string>
+    <string name="glzk">功率状况</string>
+    <string name="xtzj">系统自检</string>
+    <string name="bbxx">版本信息</string>
 </resources>

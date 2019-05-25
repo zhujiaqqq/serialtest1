@@ -29,7 +29,7 @@ import com.topeet.serialtest.DataChange;
 import com.topeet.serialtest.DipperCom;
 import com.topeet.serialtest.EventBus.Event_FKXX;
 import com.topeet.serialtest.EventBus.Event_Service;
-import com.topeet.serialtest.FucUtil;
+import com.topeet.serialtest.util.FucUtil;
 import com.topeet.serialtest.R;
 import com.topeet.serialtest.util.JsonParser;
 import com.topeet.serialtest.util.XmlParser;

@@ -1,139 +1,154 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="#e6e6e6"
-    android:orientation="vertical"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/tv_title"
+        style="@style/TextAppearance.AppCompat.Display1"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
         android:layout_marginLeft="30dp"
+        android:layout_marginTop="40dp"
         android:layout_marginRight="30dp"
-        android:textColor="#000000"
         android:gravity="center"
-        android:textSize="80px"
-        android:text="系统状态信息"
-        />
+        android:text="@string/xtztxx"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
+        android:id="@+id/tv_device_id"
+        style="@style/TextAppearance.AppCompat.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:textColor="#000000"
-        android:textSize="50px"
-        android:text="本机ID"
-        />
+        android:text="@string/device_id"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
     <TextView
         android:id="@+id/text_XtxxBjID"
+        style="@style/TextAppearance.AppCompat.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:textColor="#000000"
-        android:textSize="45px"
-        />
+        android:layout_marginTop="20dp"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_device_id"
+        tools:text="sdfsdfsd" />
+
     <TextView
+        android:id="@+id/tv_glzk"
+        style="@style/TextAppearance.AppCompat.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:textColor="#000000"
-        android:textSize="50px"
-        android:text="功率状况"
-        />
+        android:layout_marginTop="20dp"
+        android:text="@string/glzk"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_XtxxBjID" />
+
     <TextView
         android:id="@+id/text_XtxxGlzk"
+        style="@style/TextAppearance.AppCompat.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:textColor="#000000"
-        android:textSize="45px"
-        />
-
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_glzk"
+        tools:text="sdfsdfsd" />
 
 
     <TextView
+        android:id="@+id/tv_xtzj"
+        style="@style/TextAppearance.AppCompat.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:textColor="#000000"
-        android:textSize="50px"
-        android:text="系统自检"
-        />
+        android:layout_marginTop="20dp"
+        android:text="@string/xtzj"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_XtxxGlzk" />
+
     <LinearLayout
+        android:id="@+id/ll_xtzj"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        >
+        app:layout_constraintEnd_toEndOf="@id/tv_title"
+        app:layout_constraintStart_toStartOf="@id/tv_title"
+        app:layout_constraintTop_toBottomOf="@id/tv_xtzj">
 
         <TextView
             android:id="@+id/text_Xtxx_ICState"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="45px"
-            android:inputType="number"
-            />
+            style="@style/TextAppearance.AppCompat.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/text_Xtxx_hwState"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="45px"
-            android:inputType="number"
-            />
+            style="@style/TextAppearance.AppCompat.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/text_Xtxx_inboundState"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="45px"
-            android:inputType="number"
-            />
-        />
+            style="@style/TextAppearance.AppCompat.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tv_bbxx"
+        style="@style/TextAppearance.AppCompat.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:textColor="#000000"
-        android:textSize="50px"
-        android:text="版本信息"
-        />
+        android:layout_marginTop="20dp"
+        android:text="@string/bbxx"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_xtzj" />
+
     <TextView
         android:id="@+id/text_XtxxVersions"
+        style="@style/TextAppearance.AppCompat.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:textColor="#000000"
-        android:textSize="45px"
-        />
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_bbxx"
+        tools:text="sdfsdfsd" />
 
     <Button
         android:id="@+id/button_XtxxFhzjm"
+        style="@style/TextAppearance.AppCompat.Large"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="50dp"
-        android:layout_gravity="right"
-        android:textSize="60dp"
-        android:text="返回主界面"/>
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_btn"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:text="@string/tv_back_home"
+        android:textColor="@drawable/bg_btn_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_XtxxVersions" />
 
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>
