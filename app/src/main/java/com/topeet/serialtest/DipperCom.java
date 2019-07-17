@@ -76,7 +76,7 @@ public class DipperCom {
         }
     }
 
-    public static int comReceive(int[] sptr, int num){
+    public static int comReceive(byte[] sptr, int num){
         int res = 0;
         byte[] id = new byte[3];
         byte[]  message = new byte[256];
@@ -84,7 +84,7 @@ public class DipperCom {
         int i = 0;
 
         for(i = 0; i<num; i++){
-            receive_data[receive_num] = sptr[i];
+            receive_data[receive_num] = (int) sptr[i];
             receive_num++;
         }
         if(receive_num > 7) {
