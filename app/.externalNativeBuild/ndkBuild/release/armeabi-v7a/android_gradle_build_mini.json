@@ -1,0 +1,16 @@
+{
+  "buildFiles": [
+    "F:\\serialtest1\\app\\src\\main\\jni\\Android.mk"
+  ],
+  "cleanCommands": [
+    "F:\\sdk\\ndk-bundle\\ndk-build.cmd NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003dF:\\serialtest1\\app\\src\\main\\jni\\Android.mk APP_ABI\u003darmeabi-v7a NDK_ALL_ABIS\u003darmeabi-v7a NDK_DEBUG\u003d0 APP_PLATFORM\u003dandroid-19 NDK_OUT\u003dF:/serialtest1/app/build/intermediates/ndkBuild/release/obj NDK_LIBS_OUT\u003dF:\\serialtest1\\app\\build\\intermediates\\ndkBuild\\release\\lib clean"
+  ],
+  "libraries": {
+    "serialtest-release-armeabi-v7a": {
+      "artifactName": "serialtest",
+      "buildCommand": "F:\\sdk\\ndk-bundle\\ndk-build.cmd NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003dF:\\serialtest1\\app\\src\\main\\jni\\Android.mk APP_ABI\u003darmeabi-v7a NDK_ALL_ABIS\u003darmeabi-v7a NDK_DEBUG\u003d0 APP_PLATFORM\u003dandroid-19 NDK_OUT\u003dF:/serialtest1/app/build/intermediates/ndkBuild/release/obj NDK_LIBS_OUT\u003dF:\\serialtest1\\app\\build\\intermediates\\ndkBuild\\release\\lib F:/serialtest1/app/build/intermediates/ndkBuild/release/obj/local/armeabi-v7a/libserialtest.so",
+      "abi": "armeabi-v7a",
+      "output": "F:\\serialtest1\\app\\build\\intermediates\\ndkBuild\\release\\obj\\local\\armeabi-v7a\\libserialtest.so"
+    }
+  }
+}

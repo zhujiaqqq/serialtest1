@@ -1,0 +1,1 @@
+make: `F:/serialtest1/app/build/intermediates/ndkBuild/debug/obj/local/x86/libserialtest.so' is up to date.
