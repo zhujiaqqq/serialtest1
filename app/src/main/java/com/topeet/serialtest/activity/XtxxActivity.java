@@ -11,8 +11,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.topeet.serialtest.DipperCom;
-import com.topeet.serialtest.EventBus.Event_Service;
-import com.topeet.serialtest.EventBus.Event_ZJXX;
+import com.topeet.serialtest.eventbus.EventService;
+import com.topeet.serialtest.eventbus.EventZJXX;
 import com.topeet.serialtest.R;
 
 import de.greenrobot.event.EventBus;
@@ -62,7 +62,7 @@ public class XtxxActivity extends AppCompatActivity implements View.OnClickListe
         send_buff[12] = DipperCom.XORCheck(send_buff, (send_len - 1));//
 
         DipperCom.comSend(send_buff, send_len);
-        EventBus.getDefault().post(new Event_Service(4));
+        EventBus.getDefault().post(new EventService(4));
 
         text_XtxxBjID = (TextView)findViewById(R.id.text_XtxxBjID);
         text_XtxxGlzk = (TextView)findViewById(R.id.text_XtxxGlzk);
@@ -92,7 +92,7 @@ public class XtxxActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public void onEvent(Event_ZJXX event){
+    public void onEvent(EventZJXX event){
         progressDialog.dismiss();
         switch (event.anInt){
             case 1:

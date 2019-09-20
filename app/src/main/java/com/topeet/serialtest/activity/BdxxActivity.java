@@ -10,9 +10,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.topeet.serialtest.DipperCom;
-import com.topeet.serialtest.EventBus.Event_DWXX;
-import com.topeet.serialtest.EventBus.Event_FKXX;
-import com.topeet.serialtest.EventBus.Event_Service;
+import com.topeet.serialtest.eventbus.EventDWXX;
+import com.topeet.serialtest.eventbus.EventFKXX;
+import com.topeet.serialtest.eventbus.EventService;
 import com.topeet.serialtest.R;
 
 import de.greenrobot.event.EventBus;
@@ -75,7 +75,7 @@ public class BdxxActivity extends Activity implements View.OnClickListener {
         send_buff[21] = DipperCom.XORCheck(send_buff, (send_len - 1));//
 
         DipperCom.comSend(send_buff, send_len);
-        EventBus.getDefault().post(new Event_Service(3));
+        EventBus.getDefault().post(new EventService(3));
 
 
         text_BdxxJdd = (TextView) findViewById(R.id.text_BdxxJdd);
@@ -113,7 +113,7 @@ public class BdxxActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    public void onEvent(Event_FKXX event) {
+    public void onEvent(EventFKXX event) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(BdxxActivity.this);
         dialog.setTitle("    ");
         dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -137,7 +137,7 @@ public class BdxxActivity extends Activity implements View.OnClickListener {
     }
 
 
-    public void onEvent(Event_DWXX event) {
+    public void onEvent(EventDWXX event) {
         progressDialog.dismiss();
         switch (event.anInt) {
             case 1:

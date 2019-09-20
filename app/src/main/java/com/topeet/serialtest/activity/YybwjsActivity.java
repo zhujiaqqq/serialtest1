@@ -66,9 +66,9 @@ public class YybwjsActivity extends AppCompatActivity implements View.OnClickLis
             str = str + ",通信内容:" + text_ReceiveContent.getText().toString();
 
             SharedPreferences.Editor editor = getSharedPreferences("data",MODE_PRIVATE).edit();
-            editor.putString("No"+DipperCom.save_num,String.format("%04d",(DipperCom.save_num+1))+"     接收     "+ DipperCom.receive_id+"      "+text_ReceiveContent.getText().toString());
-            DipperCom.save_num++;
-            editor.putInt("save_num", DipperCom.save_num);
+            editor.putString("No"+DipperCom.S_SAVE_NUM,String.format("%04d",(DipperCom.S_SAVE_NUM +1))+"     接收     "+ DipperCom.receive_id+"      "+text_ReceiveContent.getText().toString());
+            DipperCom.S_SAVE_NUM++;
+            editor.putInt("S_SAVE_NUM", DipperCom.S_SAVE_NUM);
             editor.apply();
             //3.开始合成
             mTts.startSpeaking(str, null);

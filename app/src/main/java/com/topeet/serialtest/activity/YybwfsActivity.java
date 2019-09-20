@@ -26,10 +26,10 @@ import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SpeechRecognizer;
 import com.iflytek.cloud.util.ResourceUtil;
 import com.iflytek.sunflower.FlowerCollector;
-import com.topeet.serialtest.DataChange;
+import com.topeet.serialtest.util.NumberUtil;
 import com.topeet.serialtest.DipperCom;
-import com.topeet.serialtest.EventBus.Event_FKXX;
-import com.topeet.serialtest.EventBus.Event_Service;
+import com.topeet.serialtest.eventbus.EventFKXX;
+import com.topeet.serialtest.eventbus.EventService;
 import com.topeet.serialtest.R;
 import com.topeet.serialtest.util.FucUtil;
 import com.topeet.serialtest.util.JsonParser;
@@ -218,7 +218,7 @@ public class YybwfsActivity extends AppCompatActivity implements View.OnClickLis
      *
      * @param event 事件
      */
-    public void onEvent(Event_FKXX event) {
+    public void onEvent(EventFKXX event) {
         if (event.anInt < 10) {
             AlertDialog.Builder dialog = new AlertDialog.Builder(YybwfsActivity.this);
             dialog.setTitle("    ");
@@ -235,9 +235,9 @@ public class YybwfsActivity extends AppCompatActivity implements View.OnClickLis
                 case 0:
                     exit_flog = 1;
                     SharedPreferences.Editor editor = getSharedPreferences("data", MODE_PRIVATE).edit();
-                    editor.putString("No" + DipperCom.save_num, String.format("%04d", (DipperCom.save_num + 1)) + "    发送     " + stringSendAddress + "      " + stringSendContent);
-                    DipperCom.save_num++;
-                    editor.putInt("save_num", DipperCom.save_num);
+                    editor.putString("No" + DipperCom.S_SAVE_NUM, String.format("%04d", (DipperCom.S_SAVE_NUM + 1)) + "    发送     " + stringSendAddress + "      " + stringSendContent);
+                    DipperCom.S_SAVE_NUM++;
+                    editor.putInt("S_SAVE_NUM", DipperCom.S_SAVE_NUM);
                     editor.apply();
                     progressDialog.dismiss();
                     dialog.setMessage("发送成功");
@@ -250,7 +250,7 @@ public class YybwfsActivity extends AppCompatActivity implements View.OnClickLis
                     break;
                 case 4:
                     progressDialog.dismiss();
-                    dialog.setMessage("发送失败，发送太过频繁，请等候" + DipperCom.fspdwd_time + "秒");
+                    dialog.setMessage("发送失败，发送太过频繁，请等候" + DipperCom.FSPDWD_TIME + "秒");
                     dialog.show();
                     break;
                 case 9:
@@ -290,10 +290,10 @@ public class YybwfsActivity extends AppCompatActivity implements View.OnClickLis
                     messageLen = stringSendContent.length();
                     charSendContent = stringSendContent.toCharArray();
                     sendLen = messageLen * 2 + 1 + 18;
-                    byteSendNumber = DataChange.numIntToByte(int_send_address);
-                    //int_send_address = DataChange.numByteToInt(byteSendNumber);
-                    byteSendContent = DataChange.messageCharToByte(charSendContent, messageLen);
-                    //charSendContent = DataChange.messageByteToChars(byteSendContent, 18);
+                    byteSendNumber = NumberUtil.numIntToByte(int_send_address);
+                    //int_send_address = NumberUtil.numByteToInt(byteSendNumber);
+                    byteSendContent = NumberUtil.messageCharToByte(charSendContent, messageLen);
+                    //charSendContent = NumberUtil.messageByteToChars(byteSendContent, 18);
 
                     sendBuff[0] = '$';
                     sendBuff[1] = 'T';
@@ -318,7 +318,7 @@ public class YybwfsActivity extends AppCompatActivity implements View.OnClickLis
                     }
                     sendBuff[sendLen - 1] = DipperCom.XORCheck(sendBuff, (sendLen - 1));
                     DipperCom.comSend(sendBuff, sendLen);
-                    EventBus.getDefault().post(new Event_Service(1));
+                    EventBus.getDefault().post(new EventService(1));
 
                     Toast.makeText(v.getContext(), "输入内容的长度为" + messageLen, Toast.LENGTH_LONG).show();
 

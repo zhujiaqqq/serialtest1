@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.topeet.serialtest.DipperCom;
-import com.topeet.serialtest.DipperComService;
 import com.topeet.serialtest.R;
 import com.topeet.serialtest.adapter.ModuleListAdapter;
 import com.topeet.serialtest.entity.ModuleBean;
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 //        }
 
         SharedPreferences pref = getSharedPreferences("data", MODE_PRIVATE);
-        DipperCom.save_num = pref.getInt("save_num", 0);
+        DipperCom.S_SAVE_NUM = pref.getInt("S_SAVE_NUM", 0);
 
 //        Intent start_Intent = new Intent(this, DipperComService.class);
 //        startService(start_Intent);

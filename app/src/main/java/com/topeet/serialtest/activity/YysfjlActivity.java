@@ -29,7 +29,7 @@ public class YysfjlActivity extends AppCompatActivity implements View.OnClickLis
         int i = 0;
 
         pref = getSharedPreferences("data", MODE_PRIVATE);
-        num = DipperCom.save_num;
+        num = DipperCom.S_SAVE_NUM;
         save_data = new String[num+1];
         save_data[0] = "序号     收发     对方号码    语音内容";
         if(num != 0){
@@ -72,9 +72,9 @@ public class YysfjlActivity extends AppCompatActivity implements View.OnClickLis
                 finish();
                 break;
             case R.id.button_YysfjlQcsfjl:
-                DipperCom.save_num = 0;
+                DipperCom.S_SAVE_NUM = 0;
                 SharedPreferences.Editor editor = getSharedPreferences("data",MODE_PRIVATE).edit();
-                editor.putInt("save_num", DipperCom.save_num);
+                editor.putInt("S_SAVE_NUM", DipperCom.S_SAVE_NUM);
                 editor.apply();
                 save_data = new String[1];
                 save_data[0] = "序号     收发     对方号码    语音内容";
