@@ -29,7 +29,6 @@ import de.greenrobot.event.EventBus;
 public class DipperComService extends Service {
 
     public byte TXSQ_count = 0, DWSQ_count = 0, XTZJ_count = 0;
-    //    serial com3 = new serial();
     private SerialPort serialPort;
     private InputStream ttyS1InputStream;
     private OutputStream ttyS1OutputStream;
@@ -46,7 +45,6 @@ public class DipperComService extends Service {
     public void onCreate() {
         super.onCreate();
         EventBus.getDefault().register(this);
-//        com3.Open(3, 19200);
         try {
             serialPort = new SerialPort(new File("/dev/ssyS1"), 19200, 0);
             ttyS1InputStream = serialPort.getInputStream();
@@ -93,7 +91,6 @@ public class DipperComService extends Service {
     @Override//销毁的时候调用
     public void onDestroy() {
         super.onDestroy();
-//        com3.Close();
         serialPort.close();
     }
 
@@ -104,7 +101,6 @@ public class DipperComService extends Service {
             int res = 0;
             switch (msg.what) {
                 case 1:
-//                    int[] rx_buff = com3.Read();
                     byte[] rx_buff = new byte[500];
                     try {
                         ttyS1InputStream.read(rx_buff);
@@ -121,7 +117,7 @@ public class DipperComService extends Service {
                                 break;
                             case 2:
                                 Intent intent = new Intent(getBaseContext(), YybwjsActivity.class);
-                                intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 getApplication().startActivity(intent);
                                 break;
                             case 3:
@@ -137,6 +133,8 @@ public class DipperComService extends Service {
                             case 4:
                                 XTZJ_count = 0;
                                 EventBus.getDefault().post(new Event_ZJXX(res - 400));
+                                break;
+                            default:
                                 break;
                         }
                     }
@@ -188,6 +186,7 @@ public class DipperComService extends Service {
     };
 
     private TimerTask task = new TimerTask() {
+        @Override
         public void run() {
             Message message = new Message();
             message.what = 1;

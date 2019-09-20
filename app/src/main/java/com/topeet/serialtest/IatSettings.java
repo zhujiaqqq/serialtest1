@@ -16,6 +16,7 @@ public class IatSettings extends PreferenceActivity implements OnPreferenceChang
 	public static final String PREFER_NAME = "com.iflytek.setting";
 	
 	@SuppressWarnings("deprecation")
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);

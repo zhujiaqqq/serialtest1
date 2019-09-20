@@ -16,6 +16,9 @@ import com.topeet.serialtest.entity.ModuleBean;
 
 import java.util.List;
 
+/**
+ * @author jiazhu
+ */
 public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.ModuleHolder> {
     private List<ModuleBean> mList;
     private Context mContext;
@@ -39,12 +42,9 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Mo
         moduleHolder.ivModule.setImageResource(bean.getIcon());
         moduleHolder.tvModule.setText(bean.getName());
 
-        moduleHolder.clParent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mListener != null) {
-                    mListener.onClick(bean);
-                }
+        moduleHolder.clParent.setOnClickListener(v -> {
+            if (mListener != null) {
+                mListener.onClick(bean);
             }
         });
     }
@@ -59,7 +59,7 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.Mo
         ImageView ivModule;
         ConstraintLayout clParent;
 
-        public ModuleHolder(@NonNull View itemView) {
+        ModuleHolder(@NonNull View itemView) {
             super(itemView);
             tvModule = itemView.findViewById(R.id.tv_module);
             ivModule = itemView.findViewById(R.id.iv_module);

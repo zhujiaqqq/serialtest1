@@ -6,14 +6,14 @@ package com.topeet.serialtest.entity;
 public class ModuleBean {
     private String name;
     private int icon;
-    private Class<?> DesCls;
+    private Class<?> desCls;
     private Object what;
 
     public ModuleBean(String name, int icon,
                       Class<?> desCls, Object what) {
         this.name = name;
         this.icon = icon;
-        DesCls = desCls;
+        this.desCls = desCls;
         this.what = what;
     }
 
@@ -37,11 +37,11 @@ public class ModuleBean {
     }
 
     public Class<?> getDesCls() {
-        return DesCls;
+        return desCls;
     }
 
     public void setDesCls(Class<?> desCls) {
-        DesCls = desCls;
+        this.desCls = desCls;
     }
 
     public Object getWhat() {
