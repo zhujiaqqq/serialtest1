@@ -4,10 +4,11 @@ package com.topeet.serialtest.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.topeet.serialtest.DipperCom;
 import com.topeet.serialtest.DipperComService;
@@ -51,8 +52,8 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences pref = getSharedPreferences("data", MODE_PRIVATE);
         DipperCom.save_num = pref.getInt("save_num", 0);
 
-        Intent start_Intent = new Intent(this, DipperComService.class);
-        startService(start_Intent);
+//        Intent start_Intent = new Intent(this, DipperComService.class);
+//        startService(start_Intent);
 
         List<ModuleBean> list = new ArrayList<>();
         list.add(new ModuleBean("语音报文发送", R.drawable.ic_keyboard_voice_black_24dp, YybwfsActivity.class, null));

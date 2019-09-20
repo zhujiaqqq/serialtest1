@@ -135,7 +135,6 @@ public class FucUtil {
 			
 			return data;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

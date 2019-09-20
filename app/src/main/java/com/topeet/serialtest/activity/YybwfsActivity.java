@@ -6,13 +6,14 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.iflytek.cloud.ErrorCode;
 import com.iflytek.cloud.GrammarListener;
@@ -29,8 +30,8 @@ import com.topeet.serialtest.DataChange;
 import com.topeet.serialtest.DipperCom;
 import com.topeet.serialtest.EventBus.Event_FKXX;
 import com.topeet.serialtest.EventBus.Event_Service;
-import com.topeet.serialtest.util.FucUtil;
 import com.topeet.serialtest.R;
+import com.topeet.serialtest.util.FucUtil;
 import com.topeet.serialtest.util.JsonParser;
 import com.topeet.serialtest.util.XmlParser;
 

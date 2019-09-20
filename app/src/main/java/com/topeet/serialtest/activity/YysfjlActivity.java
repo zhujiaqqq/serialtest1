@@ -2,11 +2,12 @@ package com.topeet.serialtest.activity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.topeet.serialtest.DipperCom;
 import com.topeet.serialtest.R;

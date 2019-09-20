@@ -1,1 +1,2 @@
-make: `F:/serialtest1/app/build/intermediates/ndkBuild/debug/obj/local/x86/libserialtest.so' is up to date.
+[x86] Compile        : serialtest <= com_topeet_serialtest_serial.c
+[x86] SharedLibrary  : libserialtest.so

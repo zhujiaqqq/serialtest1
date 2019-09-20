@@ -1,1 +1,1 @@
-make: `F:/serialtest1/app/build/intermediates/ndkBuild/debug/obj/local/arm64-v8a/libserialtest.so' is up to date.
+make: `/Users/jiazhu/workspaces/serialtest1/app/build/intermediates/ndkBuild/debug/obj/local/arm64-v8a/libserialtest.so' is up to date.

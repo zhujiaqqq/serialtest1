@@ -1,13 +1,13 @@
-Executable : F:\sdk\ndk-bundle\ndk-build.cmd
+Executable : /Users/jiazhu/Library/Android/sdk/android-ndk-r15c/ndk-build
 arguments : 
 NDK_PROJECT_PATH=null
-APP_BUILD_SCRIPT=F:\serialtest1\app\src\main\jni\Android.mk
+APP_BUILD_SCRIPT=/Users/jiazhu/workspaces/serialtest1/app/src/main/jni/Android.mk
 APP_ABI=armeabi-v7a
 NDK_ALL_ABIS=armeabi-v7a
 NDK_DEBUG=1
 APP_PLATFORM=android-19
-NDK_OUT=F:/serialtest1/app/build/intermediates/ndkBuild/debug/obj
-NDK_LIBS_OUT=F:\serialtest1\app\build\intermediates\ndkBuild\debug\lib
-F:/serialtest1/app/build/intermediates/ndkBuild/debug/obj/local/armeabi-v7a/libserialtest.so
+NDK_OUT=/Users/jiazhu/workspaces/serialtest1/app/build/intermediates/ndkBuild/debug/obj
+NDK_LIBS_OUT=/Users/jiazhu/workspaces/serialtest1/app/build/intermediates/ndkBuild/debug/lib
+/Users/jiazhu/workspaces/serialtest1/app/build/intermediates/ndkBuild/debug/obj/local/armeabi-v7a/libserialtest.so
 jvmArgs : 
 

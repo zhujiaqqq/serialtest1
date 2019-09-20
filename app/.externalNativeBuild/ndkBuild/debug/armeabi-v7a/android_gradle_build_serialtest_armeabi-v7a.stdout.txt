@@ -1,1 +1,2 @@
-make: `F:/serialtest1/app/build/intermediates/ndkBuild/debug/obj/local/armeabi-v7a/libserialtest.so' is up to date.
+[armeabi-v7a] Compile thumb  : serialtest <= com_topeet_serialtest_serial.c
+[armeabi-v7a] SharedLibrary  : libserialtest.so
