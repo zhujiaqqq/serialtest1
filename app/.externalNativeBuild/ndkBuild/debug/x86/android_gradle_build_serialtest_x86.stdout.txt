@@ -1,2 +1,0 @@
-[x86] Compile        : serialtest <= com_topeet_serialtest_serial.c
-[x86] SharedLibrary  : libserialtest.so
