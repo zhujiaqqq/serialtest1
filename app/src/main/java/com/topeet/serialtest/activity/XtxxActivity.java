@@ -4,20 +4,23 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.x6.serial.LocalHandler;
 import com.example.x6.serial.SerialPortManager;
 import com.topeet.serialtest.DipperCom;
+import com.topeet.serialtest.eventbus.EventFKXX;
 import com.topeet.serialtest.eventbus.EventZJXX;
 import com.topeet.serialtest.R;
 
 import de.greenrobot.event.EventBus;
 
-public class XtxxActivity extends AppCompatActivity implements View.OnClickListener {
+public class XtxxActivity extends AppCompatActivity implements View.OnClickListener, LocalHandler.IHandler {
 
     TextView mTvXtxxBjID;
     TextView mTvXtxxGlzk;
@@ -29,10 +32,26 @@ public class XtxxActivity extends AppCompatActivity implements View.OnClickListe
 
     ProgressDialog progressDialog;
 
+    private LocalHandler mHandler = new LocalHandler(this);
+
     private Runnable xtzjRunnable = new Runnable() {
         @Override
         public void run() {
             sendXtzj();
+        }
+    };
+
+    private Runnable dialogCheckRunnable = new Runnable() {
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if (progressDialog.isShowing()) {
+                mHandler.sendEmptyMessage(254);
+            }
         }
     };
 
@@ -88,6 +107,7 @@ public class XtxxActivity extends AppCompatActivity implements View.OnClickListe
         button_Fhsyj.setOnClickListener(this);
 
         new Thread(xtzjRunnable).start();
+        new Thread(dialogCheckRunnable).start();
     }
 
     @Override
@@ -146,6 +166,25 @@ public class XtxxActivity extends AppCompatActivity implements View.OnClickListe
                 dialog.setMessage("发送超时，请检查北斗模块连接");
                 dialog.show();
                 break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void handlerMessage(Message msg) {
+        if (msg.what == 254) {
+            AlertDialog.Builder dialog2 = new AlertDialog.Builder(XtxxActivity.this);
+            dialog2.setTitle("    ");
+            dialog2.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+            dialog2.setMessage("北斗模块未连接，请检测设备");
+            dialog2.show();
+            progressDialog.dismiss();
         }
     }
 }

@@ -51,16 +51,10 @@ public class MainActivity extends AppCompatActivity implements LocalHandler.IHan
             }
             int res = DipperCom.comReceive(rxBuff, length);
 
-            System.out.println("data: >>>>>>>"+ HexUtil.byte2Hex(rxBuff));
+            System.out.println("data: >>>>>>>" + HexUtil.byte2Hex(rxBuff));
             Message msg = mHandler.obtainMessage(XIN_TIAO);
             msg.arg1 = res;
             mHandler.sendMessage(msg);
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
         }
     };
 
@@ -123,9 +117,9 @@ public class MainActivity extends AppCompatActivity implements LocalHandler.IHan
                     EventBus.getDefault().post(new EventFKXX(res - 100));
                     break;
                 case 2:
-                    Intent intent = new Intent(getBaseContext(), YybwjsActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    getApplication().startActivity(intent);
+                    Intent intent = new Intent(MainActivity.this, YybwjsActivity.class);
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    MainActivity.this.startActivity(intent);
                     break;
                 case 3:
                     dwsqCount = 0;

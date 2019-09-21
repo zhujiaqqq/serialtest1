@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +16,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.x6.serial.LocalHandler;
+import com.example.x6.serial.SerialPortManager;
 import com.iflytek.cloud.ErrorCode;
 import com.iflytek.cloud.GrammarListener;
 import com.iflytek.cloud.InitListener;
@@ -26,6 +29,7 @@ import com.iflytek.cloud.SpeechError;
 import com.iflytek.cloud.SpeechRecognizer;
 import com.iflytek.cloud.util.ResourceUtil;
 import com.iflytek.sunflower.FlowerCollector;
+import com.topeet.serialtest.util.KeyboardUtil;
 import com.topeet.serialtest.util.NumberUtil;
 import com.topeet.serialtest.DipperCom;
 import com.topeet.serialtest.eventbus.EventFKXX;
@@ -46,8 +50,13 @@ import java.nio.charset.StandardCharsets;
 
 import de.greenrobot.event.EventBus;
 
-public class YybwfsActivity extends AppCompatActivity implements View.OnClickListener {
-    // 语音识别对象
+public class YybwfsActivity extends AppCompatActivity implements View.OnClickListener, LocalHandler.IHandler {
+    private static final int MAX_NUM = 6;
+
+
+    /**
+     * 语音识别对象
+     */
     private SpeechRecognizer mAsr;
 
     private EditText mEtNumber;
@@ -55,8 +64,8 @@ public class YybwfsActivity extends AppCompatActivity implements View.OnClickLis
 
 
     int int_send_address;
-    String stringSendAddress;
-    String stringSendContent;
+    private String stringSendAddress;
+    private String stringSendContent;
     char[] charSendContent = new char[100];
     byte[] byteSendContent = new byte[100];
     byte[] byteSendNumber = new byte[3];
@@ -66,16 +75,30 @@ public class YybwfsActivity extends AppCompatActivity implements View.OnClickLis
 
     int exit_flog = 0;
 
-    String mContent;// 语法、词典临时变量
-    int ret = 0;// 函数调用返回值
-    // 本地语法文件
+    /**
+     * 语法、词典临时变量
+     */
+    String mContent;
+    /**
+     * 函数调用返回值
+     */
+    int ret = 0;
+    /**
+     * 本地语法文件
+     */
     private String mLocalGrammar = null;
-    // 本地词典
+    /**
+     * 本地词典
+     */
     private String mLocalLexicon = null;
-    // 本地语法构建路径
+    /**
+     * 本地语法构建路径
+     */
     private String grmPath = Environment.getExternalStorageDirectory()
             .getAbsolutePath() + "/msc/test";
-    // 返回结果格式，支持：xml,json
+    /**
+     * 返回结果格式，支持：xml,json
+     */
     private String mResultType = "json";
 
     private static final String GRAMMAR_TYPE_BNF = "bnf";
@@ -84,6 +107,53 @@ public class YybwfsActivity extends AppCompatActivity implements View.OnClickLis
     private Toast mToast;
     ProgressDialog progressDialog;
     private long mStart;
+
+    private LocalHandler mHandler = new LocalHandler(this);
+
+    private Runnable dialogCheckRunnable = new Runnable() {
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if (progressDialog != null && progressDialog.isShowing()) {
+                mHandler.sendEmptyMessage(253);
+            }
+        }
+    };
+
+    private Runnable sendVoiceRunnable = new Runnable() {
+        @Override
+        public void run() {
+
+            sendBuff[0] = '$';
+            sendBuff[1] = 'T';
+            sendBuff[2] = 'X';
+            sendBuff[3] = 'S';
+            sendBuff[4] = 'Q';
+            sendBuff[5] = (byte) (sendLen >> 8);
+            sendBuff[6] = (byte) (sendLen & 0x00ff);
+            sendBuff[7] = 0;
+            sendBuff[8] = 0;
+            sendBuff[9] = 0;
+            sendBuff[10] = 0x46;
+            for (int i = 0; i < 3; i++) {
+                sendBuff[11 + i] = byteSendNumber[i];
+            }
+            sendBuff[14] = (byte) (((messageLen * 2 * 8) + 8) >> 8);
+            sendBuff[15] = (byte) (((messageLen * 2 * 8) + 8) & 0x00ff);
+            sendBuff[16] = (byte) 0x00;
+            sendBuff[17] = (byte) 0xa4;
+            for (int i = 0; i < (messageLen * 2); i++) {
+                sendBuff[18 + i] = byteSendContent[i];
+            }
+            sendBuff[sendLen - 1] = DipperCom.XORCheck(sendBuff, (sendLen - 1));
+
+            SerialPortManager.getInstance().write(sendBuff, sendLen);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,9 +243,9 @@ public class YybwfsActivity extends AppCompatActivity implements View.OnClickLis
             if (null != result && !TextUtils.isEmpty(result.getResultString())) {
                 Log.d(TAG, "recognizer result：" + result.getResultString());
                 String text = "";
-                if (mResultType.equals("json")) {
+                if ("json".equals(mResultType)) {
                     text = JsonParser.parseGrammarResult(result.getResultString(), SpeechConstant.TYPE_LOCAL);
-                } else if (mResultType.equals("xml")) {
+                } else if ("xml".equals(mResultType)) {
                     text = XmlParser.parseNluResult(result.getResultString());
                 } else {
                     text = result.getResultString();
@@ -225,12 +295,9 @@ public class YybwfsActivity extends AppCompatActivity implements View.OnClickLis
         if (event.anInt < 10) {
             AlertDialog.Builder dialog = new AlertDialog.Builder(YybwfsActivity.this);
             dialog.setTitle("    ");
-            dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (exit_flog == 1) {
-                        finish();
-                    }
+            dialog.setPositiveButton("确定", (dialog1, which) -> {
+                if (exit_flog == 1) {
+                    finish();
                 }
             });
 
@@ -251,6 +318,11 @@ public class YybwfsActivity extends AppCompatActivity implements View.OnClickLis
                     dialog.setMessage("发送失败，请稍后重试");
                     dialog.show();
                     break;
+                case 2:
+                    progressDialog.dismiss();
+                    dialog.setMessage("北斗模块暂无信号，请稍后重试");
+                    dialog.show();
+                    break;
                 case 4:
                     progressDialog.dismiss();
                     dialog.setMessage("发送失败，发送太过频繁，请等候" + DipperCom.FSPDWD_TIME + "秒");
@@ -260,6 +332,8 @@ public class YybwfsActivity extends AppCompatActivity implements View.OnClickLis
                     progressDialog.dismiss();
                     dialog.setMessage("发送超时，请检查北斗模块连接");
                     dialog.show();
+                    break;
+                default:
                     break;
             }
         }
@@ -272,7 +346,8 @@ public class YybwfsActivity extends AppCompatActivity implements View.OnClickLis
 
                 // 移动数据分析，收集开始听写事件
                 FlowerCollector.onEvent(YybwfsActivity.this, "iat_recognize");
-                mEtRecognizeResult.setText(null);// 清空显示内容
+                // 清空显示内容
+                mEtRecognizeResult.setText(null);
                 startRecognize();
 
                 showTip(getString(R.string.text_begin));
@@ -281,55 +356,35 @@ public class YybwfsActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.tv_send:
                 byte i;
-                progressDialog.setTitle("正在发送");
-                progressDialog.setMessage("请稍等");
-                progressDialog.setCancelable(true);
-                progressDialog.show();
-
                 stringSendAddress = mEtNumber.getText().toString();
                 stringSendContent = mEtRecognizeResult.getText().toString();
-                if ((stringSendAddress != null) && (stringSendAddress.length() == 6)) {
-                    int_send_address = Integer.parseInt(stringSendAddress);
-                    messageLen = stringSendContent.length();
-                    charSendContent = stringSendContent.toCharArray();
-                    sendLen = messageLen * 2 + 1 + 18;
-                    byteSendNumber = NumberUtil.numIntToByte(int_send_address);
-                    //int_send_address = NumberUtil.numByteToInt(byteSendNumber);
-                    byteSendContent = NumberUtil.messageCharToByte(charSendContent, messageLen);
-                    //charSendContent = NumberUtil.messageByteToChars(byteSendContent, 18);
-
-                    sendBuff[0] = '$';
-                    sendBuff[1] = 'T';
-                    sendBuff[2] = 'X';
-                    sendBuff[3] = 'S';
-                    sendBuff[4] = 'Q';
-                    sendBuff[5] = (byte) (sendLen >> 8);
-                    sendBuff[6] = (byte) (sendLen & 0x00ff);
-                    sendBuff[7] = 0;
-                    sendBuff[8] = 0;
-                    sendBuff[9] = 0;
-                    sendBuff[10] = 0x46;
-                    for (i = 0; i < 3; i++) {
-                        sendBuff[11 + i] = byteSendNumber[i];
-                    }
-                    sendBuff[14] = (byte) (((messageLen * 2 * 8) + 8) >> 8);
-                    sendBuff[15] = (byte) (((messageLen * 2 * 8) + 8) & 0x00ff);
-                    sendBuff[16] = (byte) 0x00;
-                    sendBuff[17] = (byte) 0xa4;
-                    for (i = 0; i < (messageLen * 2); i++) {
-                        sendBuff[18 + i] = byteSendContent[i];
-                    }
-                    sendBuff[sendLen - 1] = DipperCom.XORCheck(sendBuff, (sendLen - 1));
-                    DipperCom.comSend(sendBuff, sendLen);
-                    EventBus.getDefault().post(new EventService(1));
-
-                    Toast.makeText(v.getContext(), "输入内容的长度为" + messageLen, Toast.LENGTH_LONG).show();
-
-                } else {
-                    Toast.makeText(v.getContext(), "请输入正确的号码", Toast.LENGTH_LONG).show();
+                if (stringSendAddress.length() == 0) {
+                    Toast.makeText(v.getContext(), "请输入号码", Toast.LENGTH_LONG).show();
+                    break;
                 }
 
+                if (stringSendAddress.length() > MAX_NUM) {
+                    Toast.makeText(v.getContext(), "请输入正确的号码", Toast.LENGTH_LONG).show();
+                    break;
+                }
 
+                if (stringSendContent.length() == 0) {
+                    Toast.makeText(v.getContext(), "请输入内容", Toast.LENGTH_LONG).show();
+                    break;
+                }
+
+                showProcessDialog();
+                int_send_address = Integer.parseInt(stringSendAddress);
+                messageLen = stringSendContent.length();
+                charSendContent = stringSendContent.toCharArray();
+                sendLen = messageLen * 2 + 1 + 18;
+                byteSendNumber = NumberUtil.numIntToByte(int_send_address);
+                byteSendContent = NumberUtil.messageCharToByte(charSendContent, messageLen);
+
+                new Thread(sendVoiceRunnable).start();
+                new Thread(dialogCheckRunnable).start();
+                KeyboardUtil.hideInput(this);
+                Toast.makeText(v.getContext(), "输入内容的长度为" + messageLen, Toast.LENGTH_SHORT).show();
                 Toast.makeText(v.getContext(), stringSendContent, Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tv_back:
@@ -338,6 +393,16 @@ public class YybwfsActivity extends AppCompatActivity implements View.OnClickLis
             default:
                 break;
         }
+    }
+
+    private void showProcessDialog() {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(YybwfsActivity.this);
+        }
+        progressDialog.setTitle("正在发送");
+        progressDialog.setMessage("请稍等");
+        progressDialog.setCancelable(true);
+        progressDialog.show();
     }
 
     private void showTip(final String str) {
@@ -480,6 +545,21 @@ public class YybwfsActivity extends AppCompatActivity implements View.OnClickLis
             // 退出时释放连接
             mAsr.cancel();
             mAsr.destroy();
+        }
+    }
+
+    @Override
+    public void handlerMessage(Message msg) {
+        if (msg.what == 253) {
+            AlertDialog.Builder dialog2 = new AlertDialog.Builder(YybwfsActivity.this);
+            dialog2.setTitle("    ");
+            dialog2.setMessage("北斗模块未连接，请检测设备");
+            AlertDialog alertDialog = dialog2.create();
+            dialog2.setPositiveButton("确定", (dialog, which) -> {
+                alertDialog.dismiss();
+            });
+            dialog2.show();
+            progressDialog.dismiss();
         }
     }
 }

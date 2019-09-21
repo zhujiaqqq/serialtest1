@@ -5,10 +5,13 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.x6.serial.LocalHandler;
+import com.example.x6.serial.SerialPortManager;
 import com.topeet.serialtest.DipperCom;
 import com.topeet.serialtest.eventbus.EventDWXX;
 import com.topeet.serialtest.eventbus.EventFKXX;
@@ -17,7 +20,7 @@ import com.topeet.serialtest.R;
 
 import de.greenrobot.event.EventBus;
 
-public class BdxxActivity extends Activity implements View.OnClickListener {
+public class BdxxActivity extends Activity implements View.OnClickListener, LocalHandler.IHandler {
 
     TextView text_BdxxJdd;
     TextView text_BdxxJdjf;
@@ -31,9 +34,53 @@ public class BdxxActivity extends Activity implements View.OnClickListener {
     TextView text_BdxxSjm;
 
     ProgressDialog progressDialog;
+    private LocalHandler mHandler = new LocalHandler(this);
+    private Runnable dialogCheckRunnable = new Runnable() {
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if (progressDialog.isShowing()) {
+                mHandler.sendEmptyMessage(0x99);
+            }
+        }
+    };
 
-    byte[] send_buff = new byte[100];
-    int send_len;
+    private Runnable dwxxRunnable = new Runnable() {
+        @Override
+        public void run() {
+
+            int sendLen = 22;
+            byte[] sendBuff = new byte[sendLen];
+            sendBuff[0] = '$';
+            sendBuff[1] = 'D';
+            sendBuff[2] = 'W';
+            sendBuff[3] = 'S';
+            sendBuff[4] = 'Q';
+            sendBuff[5] = (byte) (sendLen >> 8);
+            sendBuff[6] = (byte) (sendLen & 0x00ff);
+            sendBuff[7] = 0;//用户地址
+            sendBuff[8] = 0;
+            sendBuff[9] = 0;
+            sendBuff[10] = 0x04;//信息类别
+            sendBuff[11] = 0x0;//高度数据和天线高
+            sendBuff[12] = 0x0;//
+            sendBuff[13] = 0x0;//
+            sendBuff[14] = 0x0;//
+            sendBuff[15] = 0x0;//气压数据
+            sendBuff[16] = 0x0;//
+            sendBuff[17] = 0x0;//
+            sendBuff[18] = 0x0;//
+            sendBuff[19] = 0x0;//入站频度
+            sendBuff[20] = 0x0;//
+            sendBuff[21] = DipperCom.XORCheck(sendBuff, (sendLen - 1));
+
+            SerialPortManager.getInstance().write(sendBuff, sendLen);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,33 +96,9 @@ public class BdxxActivity extends Activity implements View.OnClickListener {
         progressDialog.setCancelable(true);
         progressDialog.show();
 
-        send_len = 22;
 
-        send_buff[0] = '$';
-        send_buff[1] = 'D';
-        send_buff[2] = 'W';
-        send_buff[3] = 'S';
-        send_buff[4] = 'Q';
-        send_buff[5] = (byte) (send_len >> 8);
-        send_buff[6] = (byte) (send_len & 0x00ff);
-        send_buff[7] = 0;//用户地址
-        send_buff[8] = 0;
-        send_buff[9] = 0;
-        send_buff[10] = 0x04;//信息类别
-        send_buff[11] = 0x0;//高度数据和天线高
-        send_buff[12] = 0x0;//
-        send_buff[13] = 0x0;//
-        send_buff[14] = 0x0;//
-        send_buff[15] = 0x0;//气压数据
-        send_buff[16] = 0x0;//
-        send_buff[17] = 0x0;//
-        send_buff[18] = 0x0;//
-        send_buff[19] = 0x0;//入站频度
-        send_buff[20] = 0x0;//
-        send_buff[21] = DipperCom.XORCheck(send_buff, (send_len - 1));//
-
-        DipperCom.comSend(send_buff, send_len);
-        EventBus.getDefault().post(new EventService(3));
+//        DipperCom.comSend(send_buff, send_len);
+//        EventBus.getDefault().post(new EventService(3));
 
 
         text_BdxxJdd = (TextView) findViewById(R.id.text_BdxxJdd);
@@ -90,6 +113,9 @@ public class BdxxActivity extends Activity implements View.OnClickListener {
         text_BdxxSjm = (TextView) findViewById(R.id.text_BdxxSjm);
         Button button_Fhsyj = (Button) findViewById(R.id.button_BdxxFhzjm);
         button_Fhsyj.setOnClickListener(this);
+
+        new Thread(dwxxRunnable).start();
+        new Thread(dialogCheckRunnable).start();
     }
 
     @Override
@@ -124,11 +150,15 @@ public class BdxxActivity extends Activity implements View.OnClickListener {
         });
         switch (event.anInt) {
             case 10:
-
                 break;
             case 11:
                 progressDialog.dismiss();
                 dialog.setMessage("定位失败，请稍后重试");
+                dialog.show();
+                break;
+            case 12:
+                progressDialog.dismiss();
+                dialog.setMessage("北斗模块暂无信号，请稍后重试");
                 dialog.show();
                 break;
             default:
@@ -166,6 +196,23 @@ public class BdxxActivity extends Activity implements View.OnClickListener {
                 break;
             default:
                 break;
+        }
+    }
+
+    @Override
+    public void handlerMessage(Message msg) {
+        if (msg.what == 0x99) {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(BdxxActivity.this);
+            dialog.setTitle("    ");
+            dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+            progressDialog.dismiss();
+            dialog.setMessage("北斗模块未连接，请检测设备");
+            dialog.show();
         }
     }
 }
