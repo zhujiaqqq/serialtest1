@@ -15,7 +15,6 @@ public class DipperCom {
     static int[] sSendData = new int[500];
     static int sSendNum;
     private static int[] sReceiveData = new int[500];
-    private static int sReceiveNum;
 
     /**
      * 语音报文发送相关变量
@@ -90,17 +89,17 @@ public class DipperCom {
         byte[] message = new byte[256];
         int rx_len = 0;
         int i = 0;
-
+        int receiveNum = 0;
         for (i = 0; i < num; i++) {
-            sReceiveData[sReceiveNum] = (int) sptr[i];
-            sReceiveNum++;
+            sReceiveData[receiveNum] = (int) sptr[i];
+            receiveNum++;
         }
-        if (sReceiveNum > 7) {
+        if (receiveNum > 7) {
             message_len = (sReceiveData[5] << 8) | sReceiveData[6];
-            if (message_len == sReceiveNum) {
+            if (message_len == receiveNum) {
                 XOR_test = XORCheck(sReceiveData, message_len - 1);
                 if (sReceiveData[message_len - 1] == XORCheck(sReceiveData, message_len - 1)) {
-                    sReceiveNum = 0;
+                    receiveNum = 0;
                     switch (sReceiveData[1]) {
                         case 'F':
                             if (sReceiveData[11] == 'D') {

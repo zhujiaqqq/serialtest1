@@ -83,6 +83,7 @@ public class YybwfsActivity extends AppCompatActivity implements View.OnClickLis
     private static String TAG = YybwfsActivity.class.getSimpleName();
     private Toast mToast;
     ProgressDialog progressDialog;
+    private long mStart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,12 +188,14 @@ public class YybwfsActivity extends AppCompatActivity implements View.OnClickLis
             } else {
                 Log.d(TAG, "recognizer result : null");
             }
+            System.out.println("识别时间： " + String.valueOf(System.currentTimeMillis() - mStart));
         }
 
         @Override
         public void onEndOfSpeech() {
             // 此回调表示：检测到了语音的尾端点，已经进入识别过程，不再接受语音输入
             showTip("结束说话");
+            mStart = System.currentTimeMillis();
         }
 
         @Override

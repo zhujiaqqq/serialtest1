@@ -10,27 +10,56 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.x6.serial.SerialPortManager;
 import com.topeet.serialtest.DipperCom;
-import com.topeet.serialtest.eventbus.EventService;
 import com.topeet.serialtest.eventbus.EventZJXX;
 import com.topeet.serialtest.R;
 
 import de.greenrobot.event.EventBus;
 
-public class XtxxActivity extends AppCompatActivity implements View.OnClickListener{
+public class XtxxActivity extends AppCompatActivity implements View.OnClickListener {
 
-    TextView text_XtxxBjID;
-    TextView text_XtxxGlzk;
-    TextView text_Xtxx_ICState;
-    TextView text_Xtxx_hwState;
-    TextView text_Xtxx_inboundState;
-    TextView text_XtxxVersions;
+    TextView mTvXtxxBjID;
+    TextView mTvXtxxGlzk;
+    TextView mTvXtxxICState;
+    TextView mTvXtxxHwState;
+    TextView mTvXtxxInboundState;
+    TextView mTvXtxxVersions;
 
 
     ProgressDialog progressDialog;
 
-    byte[] send_buff = new byte[100];
-    int send_len;
+    private Runnable xtzjRunnable = new Runnable() {
+        @Override
+        public void run() {
+            sendXtzj();
+        }
+    };
+
+    /**
+     * 发送系统自检
+     */
+    private void sendXtzj() {
+        int sendLen = 13;
+        byte[] sendBuff = new byte[sendLen];
+        sendBuff[0] = '$';
+        sendBuff[1] = 'X';
+        sendBuff[2] = 'T';
+        sendBuff[3] = 'Z';
+        sendBuff[4] = 'J';
+        sendBuff[5] = (byte) (sendLen >> 8);
+        sendBuff[6] = (byte) (sendLen & 0x00ff);
+        //用户地址
+        sendBuff[7] = 0;
+        sendBuff[8] = 0;
+        sendBuff[9] = 0;
+        //输出频度
+        sendBuff[10] = 0x0;
+        sendBuff[11] = 0x0;
+        sendBuff[12] = DipperCom.XORCheck(sendBuff, (sendLen - 1));
+
+        SerialPortManager.getInstance().write(sendBuff, sendLen);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,46 +74,32 @@ public class XtxxActivity extends AppCompatActivity implements View.OnClickListe
         progressDialog.show();
 
 
-        send_len = 13;
+//        DipperCom.comSend(send_buff, send_len);
+//        EventBus.getDefault().post(new EventService(4));
 
-        send_buff[0] = '$';
-        send_buff[1] = 'X';
-        send_buff[2] = 'T';
-        send_buff[3] = 'Z';
-        send_buff[4] = 'J';
-        send_buff[5] = (byte)(send_len>>8);
-        send_buff[6] = (byte)(send_len & 0x00ff);
-        send_buff[7] = 0;//用户地址
-        send_buff[8] = 0;
-        send_buff[9] = 0;
-        send_buff[10] = 0x0;//输出频度
-        send_buff[11] = 0x0;//
-        send_buff[12] = DipperCom.XORCheck(send_buff, (send_len - 1));//
-
-        DipperCom.comSend(send_buff, send_len);
-        EventBus.getDefault().post(new EventService(4));
-
-        text_XtxxBjID = (TextView)findViewById(R.id.text_XtxxBjID);
-        text_XtxxGlzk = (TextView)findViewById(R.id.text_XtxxGlzk);
-        text_Xtxx_ICState = (TextView)findViewById(R.id.text_Xtxx_ICState);
-        text_Xtxx_hwState = (TextView)findViewById(R.id.text_Xtxx_hwState);
-        text_Xtxx_inboundState = (TextView)findViewById(R.id.text_Xtxx_inboundState);
-        text_XtxxVersions = (TextView)findViewById(R.id.text_XtxxVersions);
+        mTvXtxxBjID = (TextView) findViewById(R.id.text_XtxxBjID);
+        mTvXtxxGlzk = (TextView) findViewById(R.id.text_XtxxGlzk);
+        mTvXtxxICState = (TextView) findViewById(R.id.text_Xtxx_ICState);
+        mTvXtxxHwState = (TextView) findViewById(R.id.text_Xtxx_hwState);
+        mTvXtxxInboundState = (TextView) findViewById(R.id.text_Xtxx_inboundState);
+        mTvXtxxVersions = (TextView) findViewById(R.id.text_XtxxVersions);
 
         Button button_Fhsyj = (Button) findViewById(R.id.button_XtxxFhzjm);
         button_Fhsyj.setOnClickListener(this);
+
+        new Thread(xtzjRunnable).start();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button_XtxxFhzjm:
-                text_XtxxBjID.setText(null);
-                text_XtxxGlzk.setText(null);
-                text_Xtxx_ICState.setText(null);
-                text_Xtxx_hwState.setText(null);
-                text_Xtxx_inboundState.setText(null);
-                text_XtxxVersions.setText(null);
+                mTvXtxxBjID.setText(null);
+                mTvXtxxGlzk.setText(null);
+                mTvXtxxICState.setText(null);
+                mTvXtxxHwState.setText(null);
+                mTvXtxxInboundState.setText(null);
+                mTvXtxxVersions.setText(null);
                 finish();
                 break;
             default:
@@ -92,30 +107,30 @@ public class XtxxActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public void onEvent(EventZJXX event){
+    public void onEvent(EventZJXX event) {
         progressDialog.dismiss();
-        switch (event.anInt){
+        switch (event.anInt) {
             case 1:
-                text_XtxxBjID.setText(String.format("%06d", DipperCom.local_id));
-                text_XtxxGlzk.setText(DipperCom.glzk[0]+"   "+DipperCom.glzk[1]+"   "+DipperCom.glzk[2]+"   "+DipperCom.glzk[3]+"   "+DipperCom.glzk[4]+"   "+DipperCom.glzk[5]);
-                if(DipperCom.IC_state == 0){
-                    text_Xtxx_ICState.setText("IC卡状态：正常");
-                }else{
-                    text_Xtxx_ICState.setText("IC卡状态：异常");
+                mTvXtxxBjID.setText(String.format("%06d", DipperCom.local_id));
+                mTvXtxxGlzk.setText(DipperCom.glzk[0] + "   " + DipperCom.glzk[1] + "   " + DipperCom.glzk[2] + "   " + DipperCom.glzk[3] + "   " + DipperCom.glzk[4] + "   " + DipperCom.glzk[5]);
+                if (DipperCom.IC_state == 0) {
+                    mTvXtxxICState.setText("IC卡状态：正常");
+                } else {
+                    mTvXtxxICState.setText("IC卡状态：异常");
                 }
 
-                if(DipperCom.hardware_state == 0){
-                    text_Xtxx_hwState.setText("硬件状态：正常");
-                }else{
-                    text_Xtxx_hwState.setText("硬件状态：异常");
+                if (DipperCom.hardware_state == 0) {
+                    mTvXtxxHwState.setText("硬件状态：正常");
+                } else {
+                    mTvXtxxHwState.setText("硬件状态：异常");
                 }
 
-                if(DipperCom.inbound_state == 0){
-                    text_Xtxx_inboundState.setText("入站状态：正常");
-                }else{
-                    text_Xtxx_inboundState.setText("入站状态：异常");
+                if (DipperCom.inbound_state == 0) {
+                    mTvXtxxInboundState.setText("入站状态：正常");
+                } else {
+                    mTvXtxxInboundState.setText("入站状态：异常");
                 }
-                text_XtxxVersions.setText(DipperCom.versions);
+                mTvXtxxVersions.setText(DipperCom.versions);
 
                 break;
 

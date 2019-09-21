@@ -32,7 +32,7 @@ import de.greenrobot.event.EventBus;
 public class DipperComService extends Service {
 
     public byte txsqCount = 0, dwsqCount = 0, xtzjCount = 0;
-    private SerialPort serialPort;
+    private SerialPort serialPort = null;
     private InputStream ttyS1InputStream;
     private OutputStream ttyS1OutputStream;
 
@@ -50,14 +50,7 @@ public class DipperComService extends Service {
     public void onCreate() {
         super.onCreate();
         EventBus.getDefault().register(this);
-        try {
-            serialPort = new SerialPort(new File("/dev/ssyS1"), 19200, 0);
-            ttyS1InputStream = serialPort.getInputStream();
-            ttyS1OutputStream = serialPort.getOutputStream();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        timer.schedule(task, 0, 500);
+
     }
 
     public void onEvent(EventService event) {
@@ -88,6 +81,16 @@ public class DipperComService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+        try {
+            serialPort = new SerialPort(new File("/dev/ttyS1"), 115200, 0);
+            ttyS1InputStream = serialPort.getInputStream();
+            ttyS1OutputStream = serialPort.getOutputStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        timer.schedule(task, 0, 500);
+
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -199,15 +202,5 @@ public class DipperComService extends Service {
         ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         return activityManager.getRunningTasks(1).get(0).topActivity.getClassName();
     }
-
-    static {
-        try {
-            System.loadLibrary("serialtest");
-
-        } catch (Exception e) {
-            e.printStackTrace(System.out);
-        }
-    }
-
 
 }
