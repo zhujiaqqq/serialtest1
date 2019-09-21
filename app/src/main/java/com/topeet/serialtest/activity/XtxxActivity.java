@@ -11,10 +11,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.x6.serial.LocalHandler;
+import com.topeet.serialtest.LocalHandler;
 import com.example.x6.serial.SerialPortManager;
 import com.topeet.serialtest.DipperCom;
-import com.topeet.serialtest.eventbus.EventFKXX;
 import com.topeet.serialtest.eventbus.EventZJXX;
 import com.topeet.serialtest.R;
 

@@ -1,4 +1,4 @@
-package com.example.x6.serial;
+package com.topeet.serialtest;
 
 
 import android.os.Handler;

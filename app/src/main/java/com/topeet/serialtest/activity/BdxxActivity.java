@@ -10,12 +10,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.x6.serial.LocalHandler;
+import com.topeet.serialtest.LocalHandler;
 import com.example.x6.serial.SerialPortManager;
 import com.topeet.serialtest.DipperCom;
 import com.topeet.serialtest.eventbus.EventDWXX;
 import com.topeet.serialtest.eventbus.EventFKXX;
-import com.topeet.serialtest.eventbus.EventService;
 import com.topeet.serialtest.R;
 
 import de.greenrobot.event.EventBus;
@@ -120,22 +119,18 @@ public class BdxxActivity extends Activity implements View.OnClickListener, Loca
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.button_BdxxFhzjm:
-                text_BdxxJdd.setText("000");
-                text_BdxxJdjf.setText("000");
-                text_BdxxJdjm.setText("000");
-                text_BdxxWdd.setText("000");
-                text_BdxxWdjf.setText("000");
-                text_BdxxWdjm.setText("000");
-                text_BdxxGd.setText("000");
-                text_BdxxSjs.setText("00");
-                text_BdxxSjf.setText("00");
-                text_BdxxSjm.setText("00");
-                finish();
-                break;
-            default:
-                break;
+        if (v.getId() == R.id.button_BdxxFhzjm) {
+            text_BdxxJdd.setText("000");
+            text_BdxxJdjf.setText("000");
+            text_BdxxJdjm.setText("000");
+            text_BdxxWdd.setText("000");
+            text_BdxxWdjf.setText("000");
+            text_BdxxWdjm.setText("000");
+            text_BdxxGd.setText("000");
+            text_BdxxSjs.setText("00");
+            text_BdxxSjf.setText("00");
+            text_BdxxSjm.setText("00");
+            finish();
         }
     }
 

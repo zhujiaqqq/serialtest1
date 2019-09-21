@@ -20,12 +20,18 @@ public class SerialPortManager {
 
     private void init() {
         try {
-            mSerialPort = new SerialPort(new File("/dev/ttyS1"), 115200, 0);
+            mSerialPort = new SerialPort(new File(SerialPortParam.getInstance().getPathName()), SerialPortParam.getInstance().getBaudRate(), 0);
             ttySxInputStrean = mSerialPort.getInputStream();
             ttySxOutputStream = mSerialPort.getOutputStream();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void reload(SerialPort serialPort) {
+        mSerialPort = serialPort;
+        ttySxInputStrean = mSerialPort.getInputStream();
+        ttySxOutputStream = mSerialPort.getOutputStream();
     }
 
     public void close() {

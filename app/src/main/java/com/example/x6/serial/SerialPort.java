@@ -10,14 +10,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+/**
+ * @author jiazhu
+ */
 public class SerialPort {
     private static final String TAG = "SerialPort";
-    private FileDescriptor mFd;
     private FileInputStream mFileInputStream;
     private FileOutputStream mFileOutputStream;
 
 
-    public SerialPort(File device, int baudrate, int flags) throws SecurityException, IOException {
+    public SerialPort(File device, int baudRate, int flags) throws SecurityException, IOException {
 
 //        检查访问权限，如果没有读写权限，进行文件操作，修改文件访问权限
         if (!device.canRead() || !device.canWrite()) {
@@ -26,7 +28,7 @@ public class SerialPort {
                 Process su = Runtime.getRuntime().exec("/system/xbin/su");
                 //一般的都是/system/bin/su路径，有的也是/system/xbin/su
                 String cmd = "chmod 777 " + device.getAbsolutePath() + "\n" + "exit\n";
-                Log.e("cmd :",cmd);
+                Log.e("cmd :", cmd);
                 su.getOutputStream().write(cmd.getBytes());
 
                 if ((su.waitFor() != 0) || !device.canRead() || !device.canWrite()) {
@@ -38,19 +40,23 @@ public class SerialPort {
             }
         }
 
-        mFd = open(device.getAbsolutePath(), baudrate, flags);
+        FileDescriptor fd = open(device.getAbsolutePath(), baudRate, flags);
 
-        if (mFd == null) {
+        if (fd == null) {
             Log.e(TAG, "native open returns null");
             throw new IOException();
         }
 
-        mFileInputStream = new FileInputStream(mFd);
-        mFileOutputStream = new FileOutputStream(mFd);
+        mFileInputStream = new FileInputStream(fd);
+        mFileOutputStream = new FileOutputStream(fd);
 
     }
 
-    // Getters and setters
+    /**
+     * Getters and setters
+     *
+     * @return 输入流
+     */
     public InputStream getInputStream() {
         return mFileInputStream;
     }
@@ -60,6 +66,7 @@ public class SerialPort {
     }
 
     // JNI(调用java本地接口，实现串口的打开和关闭)
+
     /**
      * @param path     串口设备的据对路径
      * @param baudrate 波特率

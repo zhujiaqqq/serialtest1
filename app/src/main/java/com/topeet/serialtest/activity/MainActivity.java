@@ -4,15 +4,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Message;
+import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.x6.serial.LocalHandler;
 import com.example.x6.serial.SerialPortManager;
 import com.topeet.serialtest.DipperCom;
+import com.topeet.serialtest.LocalHandler;
 import com.topeet.serialtest.R;
 import com.topeet.serialtest.adapter.ModuleListAdapter;
 import com.topeet.serialtest.entity.ModuleBean;
@@ -35,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements LocalHandler.IHan
     public byte txsqCount = 0, dwsqCount = 0, xtzjCount = 0;
 
     private RecyclerView mRvModuleList;
-    private ModuleListAdapter mAdapter;
+    private TextView mTvTitle;
 
     private LocalHandler mHandler = new LocalHandler(this);
 
@@ -68,6 +70,8 @@ public class MainActivity extends AppCompatActivity implements LocalHandler.IHan
     }
 
     private void initView() {
+
+        mTvTitle = findViewById(R.id.tv_title);
         mRvModuleList = findViewById(R.id.rv_module_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false);
         mRvModuleList.setLayoutManager(layoutManager);
@@ -75,24 +79,25 @@ public class MainActivity extends AppCompatActivity implements LocalHandler.IHan
     }
 
     private void initData() {
-//        if (!isFirst) {
-//            isFirst = true;
-//            Intent intent = new Intent(MainActivity.this, YybwjsActivity.class);
-//            startActivity(intent);
-//        }
 
         SharedPreferences pref = getSharedPreferences("data", MODE_PRIVATE);
         DipperCom.S_SAVE_NUM = pref.getInt("S_SAVE_NUM", 0);
 
-//        Intent start_Intent = new Intent(this, DipperComService.class);
-//        startService(start_Intent);
+        mTvTitle.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        });
 
         List<ModuleBean> list = new ArrayList<>();
         list.add(new ModuleBean("语音报文发送", R.drawable.ic_keyboard_voice_black_24dp, YybwfsActivity.class, null));
         list.add(new ModuleBean("北斗模块信息", R.drawable.ic_keyboard_voice_black_24dp, BdxxActivity.class, null));
         list.add(new ModuleBean("语音收发记录", R.drawable.ic_keyboard_voice_black_24dp, YysfjlActivity.class, null));
         list.add(new ModuleBean("系统状态信息", R.drawable.ic_keyboard_voice_black_24dp, XtxxActivity.class, null));
-        mAdapter = new ModuleListAdapter(list, MainActivity.this, new ModuleListAdapter.MyListener() {
+        ModuleListAdapter adapter = new ModuleListAdapter(list, MainActivity.this, new ModuleListAdapter.MyListener() {
             @Override
             public void onClick(ModuleBean bean) {
                 Intent intent = new Intent(MainActivity.this, bean.getDesCls());
@@ -100,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements LocalHandler.IHan
                 overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
             }
         });
-        mRvModuleList.setAdapter(mAdapter);
+        mRvModuleList.setAdapter(adapter);
 
         new Thread(mRunnable).start();
     }
@@ -118,7 +123,6 @@ public class MainActivity extends AppCompatActivity implements LocalHandler.IHan
                     break;
                 case 2:
                     Intent intent = new Intent(MainActivity.this, YybwjsActivity.class);
-//                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     MainActivity.this.startActivity(intent);
                     break;
                 case 3:

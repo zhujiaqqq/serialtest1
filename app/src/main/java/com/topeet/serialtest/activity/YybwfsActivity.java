@@ -2,7 +2,6 @@ package com.topeet.serialtest.activity;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
@@ -16,7 +15,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.x6.serial.LocalHandler;
+import com.topeet.serialtest.LocalHandler;
 import com.example.x6.serial.SerialPortManager;
 import com.iflytek.cloud.ErrorCode;
 import com.iflytek.cloud.GrammarListener;
@@ -33,7 +32,6 @@ import com.topeet.serialtest.util.KeyboardUtil;
 import com.topeet.serialtest.util.NumberUtil;
 import com.topeet.serialtest.DipperCom;
 import com.topeet.serialtest.eventbus.EventFKXX;
-import com.topeet.serialtest.eventbus.EventService;
 import com.topeet.serialtest.R;
 import com.topeet.serialtest.util.FucUtil;
 import com.topeet.serialtest.util.JsonParser;
@@ -351,8 +349,6 @@ public class YybwfsActivity extends AppCompatActivity implements View.OnClickLis
                 startRecognize();
 
                 showTip(getString(R.string.text_begin));
-
-                //Toast.makeText(v.getContext(), "shibie", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tv_send:
                 byte i;
@@ -532,10 +528,8 @@ public class YybwfsActivity extends AppCompatActivity implements View.OnClickLis
 
     //获取识别资源路径
     private String getResourcePath() {
-        StringBuilder tempBuffer = new StringBuilder();
         //识别通用资源
-        tempBuffer.append(ResourceUtil.generateResourcePath(this, ResourceUtil.RESOURCE_TYPE.assets, "asr/common.jet"));
-        return tempBuffer.toString();
+        return ResourceUtil.generateResourcePath(this, ResourceUtil.RESOURCE_TYPE.assets, "asr/common.jet");
     }
 
     @Override
